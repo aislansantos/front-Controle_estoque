@@ -1,0 +1,15 @@
+* {
+    font-family: 'lato', sans-serif;
+}
+#txt_id { 
+    width: 75px;
+}
+.primary-color {
+    color: black;
+}
+a{
+    text-decoration: none;
+}
+#logo-barra {
+    width: 50px;
+}
