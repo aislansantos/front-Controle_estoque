@@ -14,7 +14,7 @@ async function loadCustomers() {
     if (!response.ok) {
       console.error("Erro ao carregar clientes:", response.statusText);
       // Chama a função exibirErro para mostrar uma mensagem de erro ao usuário
-      exibirErro(
+      alert(
         "Erro ao carregar clientes. Por favor, tente novamente mais tarde."
       );
       return;
@@ -27,10 +27,39 @@ async function loadCustomers() {
     loadTableCustomers(data);
   } catch (error) {
     console.error("Erro ao carregar clientes:", error);
-    // Chama a função exibirErro em caso de erro durante a requisição
-    exibirErro(
-      "Erro ao carregar clientes. Por favor, tente novamente mais tarde."
-    );
+    alert("Erro ao carregar clientes. Por favor, tente novamente mais tarde.");
+  }
+}
+
+// Função para carregar os dados na tabela da página HTML
+function loadTableCustomers(customers) {
+  try {
+    let html = "";
+
+    // Itera sobre os clientes e cria as linhas da tabela
+    for (let c in customers) {
+      html += `<tr data-id="${customers[c].id}">`;
+      html += `<td> ${customers[c].id} </td>`;
+      html += `<td> ${customers[c].name} </td>`;
+      html += `<td> ${customers[c].email} </td>`;
+      html += `<td> ${customers[c].city} </td>`;
+      html += `<td>
+                <a href="#" class="primary-color detalhar-link" data-id="${customers[c].id}"> Detalhar </a> |  
+                <a href="#" class="primary-color excluir-link" data-id="${customers[c].id}"> Excluir </a>
+             </td>`;
+      html += `</tr>`;
+    }
+
+    // Obtém o elemento tbody da tabela
+    const tbodyCustomersElement = document.getElementById("tbody_customers");
+
+    // Atualiza o conteúdo do elemento tbody
+    if (tbodyCustomersElement) {
+      tbodyCustomersElement.innerHTML = html;
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error(error);
   }
 }
 
@@ -128,38 +157,6 @@ function getParameterByName(name, url) {
 
   // Decodifica o valor do parâmetro (tratando caracteres especiais, como %20 para espaços)
   return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-// Função para carregar os dados na tabela da página HTML
-function loadTableCustomers(customers) {
-  try {
-    let html = "";
-
-    // Itera sobre os clientes e cria as linhas da tabela
-    for (let c in customers) {
-      html += `<tr data-id="${customers[c].id}">`;
-      html += `<td> ${customers[c].id} </td>`;
-      html += `<td> ${customers[c].name} </td>`;
-      html += `<td> ${customers[c].email} </td>`;
-      html += `<td> ${customers[c].city} </td>`;
-      html += `<td>
-                <a href="#" class="primary-color detalhar-link" data-id="${customers[c].id}"> Detalhar </a> |  
-                <a href="#" class="primary-color excluir-link" data-id="${customers[c].id}"> Excluir </a>
-             </td>`;
-      html += `</tr>`;
-    }
-
-    // Obtém o elemento tbody da tabela
-    const tbodyCustomersElement = document.getElementById("tbody_customers");
-
-    // Atualiza o conteúdo do elemento tbody
-    if (tbodyCustomersElement) {
-      tbodyCustomersElement.innerHTML = html;
-    }
-  } catch (error) {
-    console.error(error);
-    throw new Error(error);
-  }
 }
 
 // Função para redirecionar para a página de detalhes
