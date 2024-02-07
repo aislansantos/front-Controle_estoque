@@ -249,3 +249,58 @@ async function createSeller(event) {
     console.error(error);
   }
 }
+// Função assícrona para excluir um vendedor
+async function deleteSeller(sellerId) {
+  try {
+    //Confirmação do usuario antes excluir o vendedor
+    const conformDelete = confirm(
+      "Tem certeza que deseja exluir este vendedor?"
+    );
+
+    if (!conformDelete) {
+      return;
+    }
+
+    // Faz a requisição DELETE para API de vendedor com o ID especifico
+    const response = await fetch(`${endpoint}${sellerId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Verifica se a exclusão foi bem sucedida
+    if (!response.ok) {
+      console.error("Erro ao excluir o vendedor:", response.statusText);
+      alert("Erro ao excluir vendedor, Por favor, tente novamente mais tarde.");
+      return;
+    }
+
+    // Se chegou até aqui, a exclusão foi bem-sucedida
+    console.log("Cliente excluído com sucesso");
+    alert("Cliente excluído com sucesso");
+
+    // Recarrega a lista de cliente após a exclusão
+    loadSellers();
+
+    // Remove o ouvinte de evento do link de excluir
+    document.removeEventListener("click", deleteLinkClickHandler);
+
+    // Adiciona novamente o ouvinte de evento para cliques na pagina
+    document.addEventListener("click", deleteLinkClickHandler);
+  } catch (error) {
+    console.error("Erro ao excluir o vendedor", error);
+    alert("Erro ao excluir o vendedor. Por favor, tente novamente mais tarde.");
+  }
+}
+
+function deleteLinkClickHandler(event) {
+  if (event.target.classList.contains("excluir-link")) {
+    event.preventDefault(); // Impede o comportamento padrão de um link
+    const sellerId = event.target.getAttribute("data-id");
+    deleteSeller(sellerId);
+  }
+}
+
+// Adiciona um ouvinte de evento para cliques na página
+document.addEventListener("click", deleteLinkClickHandler);

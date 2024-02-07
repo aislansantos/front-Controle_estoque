@@ -300,11 +300,6 @@ function deleteLinkClickHandler(event) {
 // Adiciona um ouvinte de evento para cliques na página
 document.addEventListener("click", deleteLinkClickHandler);
 
-// Função para exibir mensagens de erro
-function exibirErro(message) {
-  // Exibe uma mensagem de erro ao usuário, por exemplo, usando um alert
-  alert(`Erro: ${message}`);
-}
 //! Resumo das functions
 /*
 loadCustomers: Essa função faz uma requisição assíncrona (GET) para a API de clientes, verifica se a resposta foi bem-sucedida, converte os dados para JSON e chama a função loadTableCustomers para preencher a tabela na página HTML com os clientes obtidos.
