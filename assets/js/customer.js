@@ -13,7 +13,6 @@ async function loadCustomers() {
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao carregar clientes:", response.statusText);
-      // Chama a função exibirErro para mostrar uma mensagem de erro ao usuário
       alert(
         "Erro ao carregar clientes. Por favor, tente novamente mais tarde."
       );
