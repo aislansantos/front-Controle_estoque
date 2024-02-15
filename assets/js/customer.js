@@ -36,6 +36,12 @@ function loadTableCustomers(customers) {
   try {
     let html = "";
 
+    // Verifique se suppliers está definido e não está vazio
+    if (!customers || customers.length === 0) {
+      console.error("Nenhum dado de fornecedor disponível.");
+      return;
+    }
+
     // Itera sobre os clientes e cria as linhas da tabela
     for (let c in customers) {
       html += `<tr data-id="${customers[c].id}">`;
@@ -126,7 +132,6 @@ async function loadCustomerDetails(customerId) {
 document.addEventListener("DOMContentLoaded", function () {
   // Obtém o ID do cliente da URL
   const customerId = getParameterByName("id");
-
   // Se existir um ID de cliente na URL, carrega os detalhes desse cliente
   if (customerId) {
     setTimeout(() => {
@@ -143,13 +148,13 @@ function getParameterByName(name, url) {
   // Escapa caracteres especiais na string do nome do parâmetro
   name = name.replace(/[\[\]]/g, "\\$&");
 
-  // Cria uma expressão regular para encontrar o parâmetro na URL
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+  //! Cria uma expressão regular para encontrar o parâmetro na URL
+  let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
 
   // Executa a expressão regular na URL
-  var results = regex.exec(url);
+  let results = regex.exec(url);
 
-  // Se não houver correspondência, retorna null (nenhum parâmetro encontrado)
+  // Se não houver correspondência, retorna null(nenhum parâmetro encontrado)
   if (!results) return null;
 
   // Se o valor do parâmetro não estiver presente, retorna uma string vazia

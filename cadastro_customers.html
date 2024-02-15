@@ -29,24 +29,26 @@
     <div class="container">
         <div id="menu-container"></div>
         <form action="http://localhost:3000/customers" method="post" onsubmit="createCustomer(event)">
-            <div class="mb-3">
-                <label for="txt_id" class="form-label">ID</label>
-                <input type="number" class="form-control" id="txt_id" readonly>
-            </div>
-            <div class="mb-3">
-                <label for="txt_name" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="txt_name" required>
-            </div>
-            <div class="mb-3">
-                <label for="txt_email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="txt_email" required>
-            </div>
-            <div class="mb-3">
-                <label for="txt_city" class="form-label">Cidade</label>
-                <input type="text" class="form-control" id="txt_city" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Salvar</button>
-            <input type="reset" class="btn btn-primary" value="Limpar">
+            <fieldset class="form-group">
+                <div class="mb-3">
+                    <label for="txt_id" class="form-label">ID</label>
+                    <input type="number" class="form-control" id="txt_id" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="txt_name" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="txt_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="txt_email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="txt_email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="txt_city" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="txt_city" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+                <input type="reset" class="btn btn-primary" value="Limpar">
+            </fieldset>
         </form>
     </div>
 

@@ -1,11 +1,14 @@
 * {
-    font-family: 'lato', sans-serif;
+    font-family: 'JetBrains Mono', sans-serif;
 }
 #txt_id { 
     width: 75px;
 }
 .primary-color {
     color: black;
+}
+.primary-color:hover{
+    color: rgb(78, 78, 78);
 }
 a{
     text-decoration: none;
