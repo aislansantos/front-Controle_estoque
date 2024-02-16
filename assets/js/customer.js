@@ -85,7 +85,7 @@ async function loadCustomerDetails(customerId) {
     if (response.status === 200) {
       // Converte a resposta para JSON
       const customerDetails = await response.json();
-      console.log("Detalhes do cliente obtidos com sucesso:", customerDetails);
+      console.log("Detalhes do cliente obtidos com sucesso: ", customerDetails);
 
       // Preenche os campos do formulário com os detalhes do cliente
       if (customerDetails.data && customerDetails.data.length > 0) {
@@ -109,7 +109,7 @@ async function loadCustomerDetails(customerId) {
       } else {
         console.error("Detalhes do cliente indefinidos ou vazios.");
         alert(
-          "Detalhes do cliente indefinidos ou vazios. Tente novamente mais tarde."
+          "Detalhes do cliente indefinidos ou vazios. Por favor, tente novamente mais tarde."
         );
       }
     } else {
@@ -169,7 +169,7 @@ function redirectToDetails(customerId) {
   window.location.href = `cadastro_customers.html?id=${customerId}`;
 }
 
-// Adiciona um ouvinte de evento para cliques na página de detalhes cliente
+// Adiciona um ouvinte de evento para cliques na página de consulta para carregar os detalhes do cliente
 document.addEventListener("click", function (event) {
   // Verifica se o clique foi no link de "detalhar" com a classe "detalhar-link"
   if (event.target.classList.contains("detalhar-link")) {
