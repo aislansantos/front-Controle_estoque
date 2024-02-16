@@ -38,7 +38,7 @@
                     <div class="col">
                         <label for="txt_description">Descrição</label>
                         <input type="text" class="form-control" name="txt_description" id="txt_description"
-                            maxlength="100">
+                            maxlength="100" required>
                     </div>
                     <div class="col-md-2">
                         <label for="txt_amount">Estoque</label>
@@ -49,7 +49,7 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="txt_category">Categoria</label>
-                        <select class="form-control" name="txt_category" id="txt_category">
+                        <select class="form-control" name="txt_category" id="txt_category" required>
                             <option value="" disabled selected>Selecione a Categoria</option>
                         </select>
                     </div>
@@ -61,7 +61,7 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="txt_unit">Unidade</label>
-                        <select class="form-control" name="txt_unit" id="txt_unit">
+                        <select class="form-control" name="txt_unit" id="txt_unit" required>
                             <option value="" disabled selected>Selecione a Categoria</option>
                         </select>
                     </div>
@@ -83,6 +83,7 @@
         crossorigin="anonymous"></script>
 
     <!-- Seu script JavaScript -->
+    <script type="module" src="./assets/js/categories.js"></script>
     <script type="text/javascript" src="./assets/js/products.js"></script>
 
     <script>

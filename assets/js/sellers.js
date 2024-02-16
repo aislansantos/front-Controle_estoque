@@ -144,15 +144,15 @@ function loadTableSellers(sellers) {
     let html = "";
 
     // Itera sobre os vendedores e cria linhas da tabela
-    for (let s in sellers) {
-      html += `<tr data-id="${sellers[s].id}">`;
-      html += `<td>${sellers[s].id}</td>`;
-      html += `<td>${sellers[s].name}</td>`;
-      html += `<td>${sellers[s].email}</td>`;
-      html += `<td>${sellers[s].branch}</td>`;
+    for (let seller of Object.values(sellers)) {
+      html += `<tr data-id="${seller.id}">`;
+      html += `<td>${seller.id}</td>`;
+      html += `<td>${seller.name}</td>`;
+      html += `<td>${seller.email}</td>`;
+      html += `<td>${seller.branch}</td>`;
       html += `<td>
-                    <a href="#" class="primary-color detalhar-link" data-id="${sellers[s].id}"> Detalhar </a> | 
-                    <a href="#" class="primary-color excluir-link" data-id="${sellers[s].id}"> Excluir </a> 
+                    <a href="#" class="primary-color detalhar-link" data-id="${seller.id}"> Detalhar </a> | 
+                    <a href="#" class="primary-color excluir-link" data-id="${seller.id}"> Excluir </a> 
                 </td>`;
       html += `</tr>`;
     }

@@ -1,9 +1,8 @@
 // Endpoints para a API
-let endpointProduct = "http://localhost:3000/products/";
-let endpointCategories = "http://localhost:3000/products/categories/";
-
-// Variável global para armazenar as categorias
-let categories;
+const apiBaseUrl = "http://localhost:3000/products/";
+const endpointProduct = apiBaseUrl;
+const endpointCategories = apiBaseUrl + "categories/";
+const endpointUnits = apiBaseUrl + "units/";
 
 // Função assíncrona para carregar produtos da API
 async function loadProducts() {
@@ -17,7 +16,7 @@ async function loadProducts() {
     });
 
     // Verifica se a resposta foi bem-sucedida
-    if (!response.ok) {
+    if (response.status !== 200) {
       console.error("Erro ao carregar produtos", response.statusText);
       alert(
         "Erro ao carregar produtos. Por favor, tente novamente mais tarde."
@@ -48,16 +47,16 @@ function loadTableProducts(products) {
     }
 
     // Itera sobre os produtos e cria as linhas da tabela
-    for (let product in products) {
-      html += `<tr data-id="${products[product].id}">`;
-      html += `<td>${products[product].id}</td>`;
-      html += `<td>${products[product].description}</td>`;
-      html += `<td>${products[product].amount}</td>`;
-      html += `<td>${products[product].unit}</td>`;
-      html += `<td>${products[product].category}</td>`;
+    for (let product of Object.values(products)) {
+      html += `<tr data-id="${product.id}">`;
+      html += `<td>${product.id}</td>`;
+      html += `<td>${product.description}</td>`;
+      html += `<td>${product.amount}</td>`;
+      html += `<td>${product.unit}</td>`;
+      html += `<td>${product.category}</td>`;
       html += `<td>
-                <a href="#" class="primary-color detalhar-link" data-id="${products[product].id}">Detalhar</a> |
-                <a href="#" class="primary-color excluir-link" data-id="${products[product].id}">Excluir</a>
+                <a href="#" class="primary-color detalhar-link" data-id="${product.id}">Detalhar</a> |
+                <a href="#" class="primary-color excluir-link" data-id="${product.id}">Excluir</a>
               </td>`;
       html += `</tr>`;
     }
@@ -76,8 +75,13 @@ function loadTableProducts(products) {
 
 // Aguarda o carregamento completo da página antes de executar qualquer código
 document.addEventListener("DOMContentLoaded", function () {
-  // Carrega categorias e detalhes do produto
-  loadCategoriesAndProductDetails();
+  // Captura os endereços para comparar e evitar carregar em pagina html errado
+  let url = document.location.href;
+  let localhost = `http://${window.location.host}/consulta_products.html`;
+  if (url !== localhost) {
+    // Carrega categorias e detalhes do produto
+    loadCategoriesAndUnitsAndProductDetails();
+  }
 
   // Adiciona um evento para cliques na página de consulta para carregar os detalhes do produto
   document.addEventListener("click", function (event) {
@@ -115,16 +119,18 @@ function getParameterByName(name, url) {
 }
 
 // Função assíncrona para buscar os detalhes do produto da API e preencher o formulário
-async function loadProductDetails(productId, categories) {
+async function loadProductDetails(productId, categories, units) {
   try {
-    // Adiciona uma verificação se 'categories' está definido e é um array
-    if (!categories || !Array.isArray(categories)) {
-      console.error("Categorias não fornecidas corretamente.");
-      alert("Erro ao carregar categorias. Por favor, tente novamente mais tarde.");
+    document.getElementById("txt_amount").removeAttribute("readonly");
+    // Adiciona uma verificação se 'categories' e 'units' está definido e é um array
+    if (!categories || !Array.isArray(categories) || !units || !Array.isArray(units)) {
+      console.error("Categorias ou Unidades não fornecidas corretamente.");
+      alert(
+        "Erro ao carregar categorias ou unidades. Por favor, tente novamente mais tarde."
+      );
       return;
     }
 
-    console.log("Buscando detalhe do produto para o ID:", productId);
     // Faz uma requisição GET para a API de produto com o ID específico
     const response = await fetch(`${endpointProduct}${productId}`, {
       method: "GET",
@@ -137,7 +143,6 @@ async function loadProductDetails(productId, categories) {
     if (response.status === 200) {
       // Converte a resposta para JSON
       const productDetails = await response.json();
-      console.log("Detalhes do produto obtidos com sucesso: ", productDetails);
 
       // Preenche os campos do formulário com os detalhes do produto
       if (productDetails.data && productDetails.data.length > 0) {
@@ -150,28 +155,26 @@ async function loadProductDetails(productId, categories) {
         const categoryElement = document.getElementById("txt_category");
         const unitElement = document.getElementById("txt_unit");
 
-        if (idElement)
+        if (idElement) {
           idElement.value = product.id !== undefined ? product.id : "";
-        if (descriptionElement)
+        }
+        if (descriptionElement) {
           descriptionElement.value =
             product.description !== undefined ? product.description : "";
-        if (amountElement)
+        }
+        if (amountElement) {
           amountElement.value =
             product.amount !== undefined ? product.amount : "";
-        if (categoryElement) {
-          // Limpa as opções atuais do select
-          categoryElement.innerHTML = '';
-          // Adiciona uma opção padrão
-          categoryElement.appendChild(new Option("Selecione a Categoria", ""));
-          // Adiciona todas as categorias disponíveis como opções
-          categories.forEach((category) => {
-            categoryElement.appendChild(new Option(category.description, category.id));
-          });
-          // Seleciona a categoria correta com base nos detalhes do produto
-          categoryElement.value = product.id_category !== undefined ? product.id_category : "";
         }
-        if (unitElement)
-          unitElement.value = product.unit !== undefined ? product.unit : "";
+        if (categoryElement) {
+          // Seleciona a categoria correta com base nos detalhes do produto
+          categoryElement.value =
+            product.id_category !== undefined ? product.id_category : "";
+        }
+        if (unitElement) {
+          unitElement.value =
+            product.id_unit !== undefined ? product.id_unit : "";
+        }
       } else {
         console.error("Detalhes do produto indefinidos ou vazios");
         alert(
@@ -199,17 +202,6 @@ function redirectToDetails(productId) {
   window.location.href = `cadastro_products.html?id=${productId}`;
 }
 
-// Adiciona um evento para cliques na página de consulta para carregar os detalhes do produto
-document.addEventListener("click", function (event) {
-  // Verifica se o clique foi no link de detalhar com a classe detalhar link
-  if (event.target.classList.contains("detalhar-link")) {
-    event.preventDefault(); // Impede o comportamento padrão do link
-    const productId = event.target.getAttribute("data-id");
-    // Passa 'categories' como segundo argumento
-    redirectToDetails(productId);
-  }
-});
-
 // Adiciona uma Promise para carregar as categorias
 function loadCategories() {
   return new Promise(async (resolve, reject) => {
@@ -221,7 +213,7 @@ function loadCategories() {
         },
       });
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         console.error(
           "Erro ao carregar categorias dos produtos",
           response.statusText
@@ -244,11 +236,12 @@ function loadCategories() {
       }
 
       // Adiciona cada categoria como uma opção no elemento select
-      dataCategories.forEach((element) => {
-        categorySelect.appendChild(new Option(element.description, element.id));
+      dataCategories.forEach((category) => {
+        categorySelect.appendChild(
+          new Option(category.description, category.id)
+        );
       });
 
-      console.log(categorySelect);
       resolve(dataCategories);
     } catch (error) {
       console.error("Erro durante o carregamento de categorias:", error);
@@ -260,20 +253,75 @@ function loadCategories() {
   });
 }
 
+// Adiciona uma Promise para carregar as unidades
+function loadUnits() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(endpointUnits, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status !== 200) {
+        console.error(
+          "Erro ao carregar unidades dos produtos",
+          response.statusText
+        );
+        alert(
+          "Erro ao carregar categorias dos produtos. Por favor, tente novamente mais tarde."
+        );
+        reject("Erro ao carregar unidades");
+        return;
+      }
+
+      const dataUnits = await response.json();
+      let unitSelect = document.getElementById("txt_unit");
+
+      // Verifica se o elemento "txt_unit" foi encontrado
+      if (!unitSelect) {
+        console.error("Elemento 'txt_unit' não encontrado.");
+        reject("Elemento 'txt_unit' não encontrado.");
+        return;
+      }
+
+      // Adiciona cada categoria como um option no elemento select
+      dataUnits.forEach((unit) => {
+        unitSelect.appendChild(new Option(unit.description, unit.id));
+      });
+
+      resolve(dataUnits);
+    } catch (error) {
+      console.error("Erro durante o carregamento de unidade:", error);
+      alert(
+        "Erro ao carregar unidades  dos produtos. Por favor, tente novamente mais tarde."
+      );
+      reject("Erro ao carregar unidades");
+    }
+  });
+}
+
 // Função assíncrona para carregar categorias e detalhes do produto
-async function loadCategoriesAndProductDetails() {
+async function loadCategoriesAndUnitsAndProductDetails() {
   try {
     // Carrega as categorias
     const categories = await loadCategories();
+    const units = await loadUnits();
 
     // Adiciona uma verificação se 'categories' está definido e é um array
-    if (categories && Array.isArray(categories)) {
+    if (
+      categories &&
+      Array.isArray(categories) &&
+      units &&
+      Array.isArray(units)
+    ) {
       // Obtém o ID do produto da URL
       const productId = getParameterByName("id");
 
       // Se houver um ID de produto, carrega os detalhes desse produto
       if (productId) {
-        await loadProductDetails(productId, categories);
+        await loadProductDetails(productId, categories, units);
       }
     } else {
       console.error("Categorias não carregadas corretamente.");
@@ -289,15 +337,66 @@ async function loadCategoriesAndProductDetails() {
   }
 }
 
+// Função assícrona para criar ou atualizar produto
+async function createProduct(event) {
+  try {
+    event.preventDefault(); // Impede o envio padrão do formulário
 
-// Adiciona um evento para cliques na página de consulta para carregar os detalhes do produto
-document.addEventListener("click", function (event) {
-  // Verifica se o clique foi no link de detalhar com a classe detalhar link
-  if (event.target.classList.contains("detalhar-link")) {
-    event.preventDefault(); // Impede o comportamento padrão do link
-    const productId = event.target.getAttribute("data-id");
-    // Passa 'categories' como segundo argumento
-    redirectToDetails(productId);
+    // Obtém os valores dos campos dor formulario
+    const id = document.getElementById("txt_id").value;
+    const description = document.getElementById("txt_description").value;
+    const amount = parseFloat(document.getElementById("txt_amount").value) || 0;
+    const category = parseFloat(document.getElementById("txt_category").value);
+    const unit = parseFloat(document.getElementById("txt_unit").value);
+
+    // Determina o método com base no valor de ID
+    const method = id ? "PATCH" : "POST";
+
+    // Constrói o objeto de dados a ser enviado no corpo da requisição
+    const data = {
+      description: description,
+      amount: amount,
+      FkIdUnit: unit,
+      FkIdCategory: category,
+    };
+
+    // se for uma atualização(PATCH), adiciona o ID no objeto de dados
+    if (id) {
+      data.id = id;
+    }
+
+    // Faz a requisição para a API
+    const url = id ? `${endpointProduct}${id}` : `${endpointProduct}`;
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    // Verifica se a resposta foi bem-sucedida
+    if (response.status !== 200) {
+      console.error("Erro ao criar/atualizar produto:", response.statusText);
+      alert(
+        "Erro ao criar/atualizar produto. Por favor, tente novamente mais tarde."
+      );
+      return;
+    }
+
+    // Se chegou até aqui, a criação/atualização foi bem sucedida
+    alert("Produto criado/atualizado com sucesso!");
+
+    // Limpa os campos do formulário
+    document.getElementById("txt_id").value = "";
+    document.getElementById("txt_description").value = "";
+    document.getElementById("txt_amount").value = "";
+    document.getElementById("txt_category").value = "";
+    document.getElementById("txt_unit").value = "";
+
+    // Recarrega a lista de produtos
+    loadProducts();
+  } catch (error) {
+    console.error(error);
   }
-});
-
+}

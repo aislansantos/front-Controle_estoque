@@ -42,15 +42,15 @@ function loadTableCustomers(customers) {
     }
 
     // Itera sobre os clientes e cria as linhas da tabela
-    for (let c in customers) {
-      html += `<tr data-id="${customers[c].id}">`;
-      html += `<td> ${customers[c].id} </td>`;
-      html += `<td> ${customers[c].name} </td>`;
-      html += `<td> ${customers[c].email} </td>`;
-      html += `<td> ${customers[c].city} </td>`;
+    for (let customer of Object.values(customers)) {
+      html += `<tr data-id="${customer.id}">`;
+      html += `<td> ${customer.id} </td>`;
+      html += `<td> ${customer.name} </td>`;
+      html += `<td> ${customer.email} </td>`;
+      html += `<td> ${customer.city} </td>`;
       html += `<td>
-                <a href="#" class="primary-color detalhar-link" data-id="${customers[c].id}"> Detalhar </a> |  
-                <a href="#" class="primary-color excluir-link" data-id="${customers[c].id}"> Excluir </a>
+                <a href="#" class="primary-color detalhar-link" data-id="${customer.id}"> Detalhar </a> |  
+                <a href="#" class="primary-color excluir-link" data-id="${customer.id}"> Excluir </a>
              </td>`;
       html += `</tr>`;
     }
@@ -190,7 +190,7 @@ async function createCustomer(event) {
     const email = document.getElementById("txt_email").value;
     const city = document.getElementById("txt_city").value;
 
-    // Determina o método com base no valor de id
+    // Determina o método com base no valor de ID
     const method = id ? "PATCH" : "POST";
 
     // Constrói o objeto de dados a ser enviado no corpo da requisição

@@ -43,14 +43,14 @@ function loadTableSuppliers(suppliers) {
     }
 
     // Itera sobre os fornecedores e cria as linhas da tabela
-    for (let s in suppliers) {
-      html += `<tr data-id="${suppliers[s].id}">`;
-      html += `<td> ${suppliers[s].id} </td>`;
-      html += `<td> ${suppliers[s].name} </td>`;
-      html += `<td> ${suppliers[s].email} </td>`;
+    for (let supplier of Object.values(suppliers)) {
+      html += `<tr data-id="${supplier.id}">`;
+      html += `<td> ${supplier.id} </td>`;
+      html += `<td> ${supplier.name} </td>`;
+      html += `<td> ${supplier.email} </td>`;
       html += `<td>
-                <a href=# class="primary-color detalhar-link" data-id="${suppliers[s].id}">Detalhar</a> |
-                <a href=# class="primary-color excluir-link" data-id="${suppliers[s].id}">Excluir</a>
+                <a href=# class="primary-color detalhar-link" data-id="${supplier.id}">Detalhar</a> |
+                <a href=# class="primary-color excluir-link" data-id="${supplier.id}">Excluir</a>
              </td>`;
       html += `</tr>`;
     }
