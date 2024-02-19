@@ -91,6 +91,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const productId = event.target.getAttribute("data-id");
       redirectToDetails(productId); // Não é necessário passar 'categories' aqui
     }
+    if (event.target.classList.contains("excluir-link")) {
+      console.log("TESTE");
+      event.preventDefault(); // Impede o comportamento padrão do link
+      const productId = event.target.getAttribute("data-id");
+      deleteProduct(productId); // Chama a função para ecluir o cliente
+    }
   });
 });
 
@@ -123,7 +129,12 @@ async function loadProductDetails(productId, categories, units) {
   try {
     document.getElementById("txt_amount").removeAttribute("readonly");
     // Adiciona uma verificação se 'categories' e 'units' está definido e é um array
-    if (!categories || !Array.isArray(categories) || !units || !Array.isArray(units)) {
+    if (
+      !categories ||
+      !Array.isArray(categories) ||
+      !units ||
+      !Array.isArray(units)
+    ) {
       console.error("Categorias ou Unidades não fornecidas corretamente.");
       alert(
         "Erro ao carregar categorias ou unidades. Por favor, tente novamente mais tarde."
@@ -376,7 +387,7 @@ async function createProduct(event) {
     });
 
     // Verifica se a resposta foi bem-sucedida
-    if (response.status !== 200) {
+    if (!response.ok) {
       console.error("Erro ao criar/atualizar produto:", response.statusText);
       alert(
         "Erro ao criar/atualizar produto. Por favor, tente novamente mais tarde."
@@ -387,16 +398,48 @@ async function createProduct(event) {
     // Se chegou até aqui, a criação/atualização foi bem sucedida
     alert("Produto criado/atualizado com sucesso!");
 
-    // Limpa os campos do formulário
-    document.getElementById("txt_id").value = "";
-    document.getElementById("txt_description").value = "";
-    document.getElementById("txt_amount").value = "";
-    document.getElementById("txt_category").value = "";
-    document.getElementById("txt_unit").value = "";
+    window.location.href = `http://${window.location.host}/consulta_products.html`;
 
     // Recarrega a lista de produtos
     loadProducts();
   } catch (error) {
     console.error(error);
+  }
+}
+
+async function deleteProduct(productId) {
+  try {
+    // Confirmação do usuário antes de excluir um produto
+    const confirmDelete = confirm(
+      "Tem certeeza que deseja exlcuir este produto ?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    // Faz a requisição DELETE para a API de produtos com o ID especifico
+    const response = await fetch(`${endpointProduct}${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Verifica sea exclusão foi bem-sucedida
+    if (!response.ok) {
+      console.error("Erro ao excluir produto:", response.statusText);
+      alert("Erro ao excluir produto. Por favor, tente novamente mais tarde.");
+      return;
+    }
+
+    // Recarrega a lista de produtps após a exclusão
+    await loadProducts();
+
+    // Se chegou até aqui, a exclusão foi bem-suicedida
+    console.log("Produto excluido com sucesso!");
+  } catch (error) {
+    console.error("Erro ao excluir produto:", error);
+    alert("Erro ao excluir produto. Por favor, tente novamente mais tarde.");
   }
 }

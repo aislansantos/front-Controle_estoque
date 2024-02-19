@@ -228,11 +228,7 @@ async function createCustomer(event) {
     console.log("Cliente criado/atualizado com sucesso!");
     alert("Cliente criado/atualizado com sucesso!");
 
-    // Limpa os campos do formulário
-    document.getElementById("txt_id").value = "";
-    document.getElementById("txt_name").value = "";
-    document.getElementById("txt_email").value = "";
-    document.getElementById("txt_city").value = "";
+    cleanFields();
 
     // Recarrega a lista de clientes
     loadCustomers();
@@ -242,6 +238,14 @@ async function createCustomer(event) {
       "Erro ao criar/atualizar cliente. Por favor, tente novamente mais tarde."
     );
   }
+}
+
+// Limpa os campos do formulário
+function cleanFields() {
+  document.getElementById("txt_id").value = "";
+  document.getElementById("txt_name").value = "";
+  document.getElementById("txt_email").value = "";
+  document.getElementById("txt_city").value = "";
 }
 
 // Função assíncrona para excluir um cliente
