@@ -30,14 +30,15 @@ async function loadCustomers() {
   }
 }
 
-// Função para carregar os dados na tabela da página HTML
+// Função para carregar os dados na tabela HTML -> usado dento do loadCustomers()
 function loadTableCustomers(customers) {
   try {
     let html = "";
 
-    // Verifique se suppliers está definido e não está vazio
+    // Verifique se customer está definido e não está vazio
     if (!customers || customers.length === 0) {
       console.error("Nenhum dado de fornecedor disponível.");
+      alert("Nenhum dado de fornecedor disponível.");
       return;
     }
 
@@ -143,22 +144,16 @@ document.addEventListener("DOMContentLoaded", function () {
 function getParameterByName(name, url) {
   // Se a URL não for fornecida, utiliza a URL atual da janela
   if (!url) url = window.location.href;
-
   // Escapa caracteres especiais na string do nome do parâmetro
   name = name.replace(/[\[\]]/g, "\\$&");
-
   //! Cria uma expressão regular para encontrar o parâmetro na URL
   let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-
   // Executa a expressão regular na URL
   let results = regex.exec(url);
-
   // Se não houver correspondência, retorna null(nenhum parâmetro encontrado)
   if (!results) return null;
-
   // Se o valor do parâmetro não estiver presente, retorna uma string vazia
   if (!results[2]) return "";
-
   // Decodifica o valor do parâmetro (tratando caracteres especiais, como %20 para espaços)
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
@@ -183,30 +178,25 @@ document.addEventListener("click", function (event) {
 async function createCustomer(event) {
   try {
     event.preventDefault(); // Impede o envio padrão do formulário
-
     // Obtém os valores dos campos do formulário
     const id = document.getElementById("txt_id").value;
     const name = document.getElementById("txt_name").value;
     const email = document.getElementById("txt_email").value;
     const city = document.getElementById("txt_city").value;
-
     // Determina o método com base no valor de ID
     const method = id ? "PATCH" : "POST";
-
     // Constrói o objeto de dados a ser enviado no corpo da requisição
     const data = {
       name: name,
       email: email,
       city: city,
     };
-
     // Se for uma atualização (PATCH), adiciona o id ao objeto de dados
     if (id) {
       data.id = id;
     }
-
     // Faz a requisição para a API
-    const url = id ? `${endpoint}${id}` : `${endpoint}`;
+    const url = id ? `${endpoint}${id}` : endpoint;
     const response = await fetch(url, {
       method: method,
       headers: {
@@ -214,7 +204,6 @@ async function createCustomer(event) {
       },
       body: JSON.stringify(data),
     });
-
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao criar/atualizar cliente:", response.statusText);
@@ -223,12 +212,11 @@ async function createCustomer(event) {
       );
       return;
     }
-
     // Se chegou até aqui, a criação/atualização foi bem-sucedida
     console.log("Cliente criado/atualizado com sucesso!");
     alert("Cliente criado/atualizado com sucesso!");
 
-    cleanFields();
+    window.location.href = `http://${window.location.host}/consulta_customers.html`;
 
     // Recarrega a lista de clientes
     loadCustomers();
@@ -240,14 +228,6 @@ async function createCustomer(event) {
   }
 }
 
-// Limpa os campos do formulário
-function cleanFields() {
-  document.getElementById("txt_id").value = "";
-  document.getElementById("txt_name").value = "";
-  document.getElementById("txt_email").value = "";
-  document.getElementById("txt_city").value = "";
-}
-
 // Função assíncrona para excluir um cliente
 async function deleteCustomer(customerId) {
   try {
@@ -255,11 +235,9 @@ async function deleteCustomer(customerId) {
     const confirmDelete = confirm(
       "Tem certeza que deseja excluir este cliente?"
     );
-
     if (!confirmDelete) {
       return;
     }
-
     // Faz a requisição DELETE para a API de clientes com o ID específico
     const response = await fetch(`${endpoint}${customerId}`, {
       method: "DELETE",
@@ -267,24 +245,19 @@ async function deleteCustomer(customerId) {
         "Content-Type": "application/json",
       },
     });
-
     // Verifica se a exclusão foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao excluir cliente:", response.statusText);
       alert("Erro ao excluir cliente. Por favor, tente novamente mais tarde.");
       return;
     }
-
     // Se chegou até aqui, a exclusão foi bem-sucedida
     console.log("Cliente excluído com sucesso!");
     alert("Cliente excluído com sucesso!");
-
     // Recarrega a lista de clientes após a exclusão
     loadCustomers();
-
     // Remove o ouvinte de eventos do link de "excluir"
     document.removeEventListener("click", deleteLinkClickHandler);
-
     // Adiciona novamente o ouvinte de evento para cliques na página
     document.addEventListener("click", deleteLinkClickHandler);
   } catch (error) {

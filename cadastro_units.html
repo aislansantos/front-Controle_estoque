@@ -1,4 +1,4 @@
-<!-- Cadastro de Clientes.html -->
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,27 +28,8 @@
 <body>
     <div class="container">
         <div id="menu-container"></div>
-        <form action="http://localhost:3000/customers" method="post" onsubmit="createCustomer(event)">
-            <fieldset class="form-group">
-                <div class="mb-3">
-                    <label for="txt_id" class="form-label">ID</label>
-                    <input type="number" class="form-control" id="txt_id" readonly>
-                </div>
-                <div class="mb-3">
-                    <label for="txt_name" class="form-label">Nome</label>
-                    <input type="text" class="form-control" id="txt_name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="txt_email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="txt_email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="txt_city" class="form-label">Cidade</label>
-                    <input type="text" class="form-control" id="txt_city" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </fieldset>
-        </form>
+
+
     </div>
 
     <!-- JAVASCRIPT Bootstrap -->
@@ -57,7 +38,7 @@
         crossorigin="anonymous"></script>
 
     <!-- Seu script JavaScript -->
-    <script type="text/javascript" src="./assets/js/customer.js"></script>
+    <script type="text/javascript" src="./assets/js/teste.js"></script>
 
     <script>
         // Carrega o conteúdo do menu.html dinamicamente
@@ -65,8 +46,6 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('menu-container').innerHTML = data;
-                // Após carregar o menu, chama a função para carregar os clientes
-                loadCustomers();
             })
             .catch(error => console.error('Erro ao carregar o menu:', error));
     </script>

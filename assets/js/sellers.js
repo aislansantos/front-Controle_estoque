@@ -13,8 +13,7 @@ async function loadSellers() {
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao carregar vendedores:", response.statusText);
-      // chama a função exibirErro para mostrar uma mensagem de erro ao usuário
-      exibirErro(
+      alert(
         "Erro ao carregar vendedores. Por favor, teste novamente  mais tarde."
       );
       return;
