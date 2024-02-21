@@ -1,4 +1,4 @@
-const endpoint = `http://localhost:3000/products/categories/`;
+  const endpoint = `http://localhost:3000/products/categories/`;
 const urlCad = `cadastro_category.html?id=`;
 
 // Função assincrona para carrgegar os dados das categorias de produtos
@@ -170,6 +170,7 @@ async function createCategory(event) {
     // Obtém os valores dos campos do formulário
     const id = document.getElementById("txt_id").value;
     const description = document.getElementById("txt_description").value;
+    console.log(description);
     // Dertemina o método com base no valor de ID
     const method = id ? "PATCH" : "POST";
     // Constrói o objeto de dados a ser enviado no corpo da requisição
