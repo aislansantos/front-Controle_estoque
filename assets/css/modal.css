@@ -32,7 +32,9 @@ button:hover{
     opacity: 1;
 }
 
-#fade, #modal{
+#fade,
+#modal_category,
+#modal_unit{
     transition: .5s;
     opacity: 1;
     pointer-events: all;
@@ -48,7 +50,8 @@ button:hover{
     z-index: 5;
 }
 
-#modal{
+#modal_category,
+#modal_unit{
     position: fixed;
     left: 50%;
     top: 50%;
@@ -74,12 +77,14 @@ button:hover{
     margin-bottom: 1rem;
 }
 
-#modal.hide,
+#modal_category.hide,
+#modal_unit.hide,
 #fade.hide{
     opacity: 0;
     pointer-events: none;
 }
 
-#modal.hide{
+#modal_category.hide,
+#modal_unit.hide{
     top: 0;
 }

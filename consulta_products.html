@@ -37,34 +37,40 @@
 <body onload="loadProducts()">
     <div class="container">
         <div id="menu-container"></div>
+        <div class="container">
+            <br>
+            <div class="form-group">
+                <label for="">Pesquisar</label>
+                <input type="text" name="txt_pesquisa" id="txt_pesquisa" placeholder="Digite a Categiria">
+                <button type="button" class="btn btn-sm btn-outline-dark">Pesquisar</button>
+            </div>
+            <table id="tb_products" class="table">
+                <thead>
+                    <th>Cod.</th>
+                    <th>Descrição</th>
+                    <th>Quant.</th>
+                    <th>Uni.</th>
+                    <th>Categoria</th>
+                    <th>Opção</th>
+                </thead>
+                <tbody id="tbody_products">
+                </tbody>
+            </table>
 
-        <table id="tb_products" class="table">
-            <thead>
-                <th>Cod.</th>
-                <th>Descrição</th>
-                <th>Quant.</th>
-                <th>Uni.</th>
-                <th>Categoria</th>
-                <th>Opção</th>
-            </thead>
-            <tbody id="tbody_products">
-            </tbody>
-        </table>
+        </div>
 
-    </div>
+        <!-- Seu script JavaScript -->
+        <script type="text/javascript" src="./assets/js/products.js"></script>
 
-    <!-- Seu script JavaScript -->
-    <script type="text/javascript" src="./assets/js/products.js"></script>
-
-    <script>
-        // Carrega o conteúdo do menu.html dinamicamente
-        fetch('menu.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('menu-container').innerHTML = data;
-            })
-            .catch(error => console.error('Erro ao carregar o menu:', error));
-    </script>
+        <script>
+            // Carrega o conteúdo do menu.html dinamicamente
+            fetch('menu.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('menu-container').innerHTML = data;
+                })
+                .catch(error => console.error('Erro ao carregar o menu:', error));
+        </script>
 
 </body>
 

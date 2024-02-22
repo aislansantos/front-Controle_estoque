@@ -1,4 +1,4 @@
-  const endpoint = `http://localhost:3000/products/categories/`;
+const endpoint = `http://localhost:3000/products/categories/`;
 const urlCad = `cadastro_category.html?id=`;
 
 // Função assincrona para carrgegar os dados das categorias de produtos
@@ -24,7 +24,7 @@ async function loadCategories() {
     }
     // Converte a resposta para JSON
     const data = await response.json();
-    // Chama a função para carregar os clientes na tabela
+    // Chama a função para carregar os categorias na tabela
     loadTableCategories(data);
   } catch (error) {
     console.error("Erro durante o carregamento de categorias:", error);
@@ -38,19 +38,19 @@ async function loadCategories() {
 function loadTableCategories(categories) {
   try {
     let html = "";
-    // Verifica se categories está definido e não está vazio
+    // Verifica se categories está definido ou não está vazio
     if (!categories || categories.length === 0) {
       console.error("Nenhum dados de categorias disponível.");
       alert("Nenhum dados de categorias disponível.");
       return;
     }
     // Itera sobre as categorias e cria as linhas da tabela
-    for (category of Object.values(categories)) {
+    for (const category of Object.values(categories)) {
       html += `<tr data-id="${category.id}">`;
       html += `<td>${category.id}</td>`;
       html += `<td>${category.description}</td>`;
       html += `<td>
-                <a href="#" class="primary-color detalhar-link btn btn-sm btn-outline-primary" data-id="${category.id}"> Detalhar </a> | 
+                <a href="#" class="primary-color detalhar-link btn btn-sm btn-outline-primary" data-id="${category.id}"> Detalhar </a> 
                 <a href="#" class="primary-color excluir-link btn btn-sm btn-outline-danger" data-id="${category.id}"> Excluir </a> 
               </td>`;
       html += `</tr>`;
@@ -88,9 +88,9 @@ async function loadCategoryDetails(categoryId) {
       );
       return;
     }
-    // Converte a resposta para JSON se bem sucedida
+    // Converte a resposta para JSON se bem-sucedida
     const categoryDetails = await response.json();
-
+    console.log(categoryDetails.data);
     // Preenche os campos do formulário com os detaljes da categoria
     if (categoryDetails.data && categoryDetails.data.length > 0) {
       const category = categoryDetails.data[0];
@@ -190,8 +190,6 @@ async function createCategory(event) {
       },
       body: JSON.stringify(data),
     });
-
-    console.log(response);
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       console.error(

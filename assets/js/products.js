@@ -55,8 +55,8 @@ function loadTableProducts(products) {
       html += `<td>${product.unit}</td>`;
       html += `<td>${product.category}</td>`;
       html += `<td>
-                <a href="#" class="primary-color detalhar-link" data-id="${product.id}">Detalhar</a> |
-                <a href="#" class="primary-color excluir-link" data-id="${product.id}">Excluir</a>
+                <a href="#" class="primary-color detalhar-link btn btn-sm btn-outline-primary" data-id="${product.id}">Detalhar</a> |
+                <a href="#" class="primary-color excluir-link btn btn-sm btn-outline-danger" data-id="${product.id}">Excluir</a>
               </td>`;
       html += `</tr>`;
     }
