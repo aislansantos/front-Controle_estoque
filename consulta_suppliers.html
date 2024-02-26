@@ -28,7 +28,12 @@
 <body onload="loadSuppliers()">
     <div class="container">
         <div id="menu-container"></div>
-
+        <br>
+        <div class="form-group">
+            <label for="">Pesquisar</label>
+            <input type="text" name="txt_pesquisa" id="txt_pesquisa" placeholder="Digite a Categiria">
+            <button type="button" class="btn btn-sm btn-outline-dark">Pesquisar</button>
+        </div>
         <table id="tb_suppliers" class="table">
             <thead>
                 <th scope="col">Id</th>
@@ -39,6 +44,9 @@
             <tbody id="tbody_suppliers">
             </tbody>
         </table>
+        <div class="col-lg-12" style="text-align: right;">
+            <a href="cadastro_suppliers.html" class="btn btn-outline-dark">Cadastrar Novo Fornecedor</a>
+        </div>
     </div>
 
     <!-- JAVASCRIPT Bootstrap -->
