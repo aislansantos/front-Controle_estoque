@@ -14,7 +14,6 @@ async function loadProducts() {
         "Content-Type": "application/json",
       },
     });
-
     // Verifica se a resposta foi bem-sucedida
     if (response.status !== 200) {
       console.error("Erro ao carregar produtos", response.statusText);
@@ -23,10 +22,8 @@ async function loadProducts() {
       );
       return;
     }
-
     // Converte a resposta para JSON
     const data = await response.json();
-
     // Chama a função para carregar os produtos na tabela
     loadTableProducts(data);
   } catch (error) {
@@ -39,13 +36,11 @@ async function loadProducts() {
 function loadTableProducts(products) {
   try {
     let html = "";
-
     // Verifica se 'products' está definido e não está vazio
     if (!products || products.length === 0) {
       console.error("Nenhum dado de produto disponível.");
       return;
     }
-
     // Itera sobre os produtos e cria as linhas da tabela
     for (let product of Object.values(products)) {
       html += `<tr data-id="${product.id}">`;
@@ -60,10 +55,8 @@ function loadTableProducts(products) {
               </td>`;
       html += `</tr>`;
     }
-
     // Obtém o elemento tbody da tabela
     const tbodyProductsElement = document.getElementById("tbody_products");
-
     // Atualiza o conteúdo do tbody
     if (tbodyProductsElement) {
       tbodyProductsElement.innerHTML = html;
@@ -82,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // Carrega categorias e detalhes do produto
     loadCategoriesAndUnitsAndProductDetails();
   }
-
   // Adiciona um evento para cliques na página de consulta para carregar os detalhes do produto
   document.addEventListener("click", function (event) {
     // Verifica se o clique foi no link de detalhar com a classe detalhar link
@@ -92,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
       redirectToDetails(productId); // Não é necessário passar 'categories' aqui
     }
     if (event.target.classList.contains("excluir-link")) {
-      console.log("TESTE");
       event.preventDefault(); // Impede o comportamento padrão do link
       const productId = event.target.getAttribute("data-id");
       deleteProduct(productId); // Chama a função para ecluir o cliente
@@ -104,22 +95,16 @@ document.addEventListener("DOMContentLoaded", function () {
 function getParameterByName(name, url) {
   // Se a URL não for fornecida, utiliza a URL atual da janela
   if (!url) url = window.location.href;
-
   // Escapa caracteres especiais na string do nome do parâmetro
   name = name.replace(/[\[/]]/g, "\\$&");
-
   // Cria uma expressão regular para encontrar o parâmetro na URL
   let regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
-
   // Executa a expressão regular na URL
   let results = regex.exec(url);
-
   // Se não houver correspondência, retorna null (nenhum parâmetro encontrado)
   if (!results) return null;
-
   // Se o valor do parâmetro não estiver presente, retorna uma string vazia
   if (!results[2]) return "";
-
   // Decodifica o valor do parâmetro (tratando caracteres especiais, como %20 para espaços)
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
@@ -141,7 +126,6 @@ async function loadProductDetails(productId, categories, units) {
       );
       return;
     }
-
     // Faz uma requisição GET para a API de produto com o ID específico
     const response = await fetch(`${endpointProduct}${productId}`, {
       method: "GET",
@@ -149,7 +133,6 @@ async function loadProductDetails(productId, categories, units) {
         "Content-Type": "application/json",
       },
     });
-
     // Verifica o status da resposta
     if (response.status === 200) {
       // Converte a resposta para JSON
@@ -158,14 +141,12 @@ async function loadProductDetails(productId, categories, units) {
       // Preenche os campos do formulário com os detalhes do produto
       if (productDetails.data && productDetails.data.length > 0) {
         const product = productDetails.data[0];
-
         // Atribui valores apenas se os campos existirem e o valor não for undefined
         const idElement = document.getElementById("txt_id");
         const descriptionElement = document.getElementById("txt_description");
         const amountElement = document.getElementById("txt_amount");
         const categoryElement = document.getElementById("txt_category");
         const unitElement = document.getElementById("txt_unit");
-
         if (idElement) {
           idElement.value = product.id !== undefined ? product.id : "";
         }
@@ -223,7 +204,6 @@ function loadCategories() {
           "Content-type": "application/json",
         },
       });
-
       if (response.status !== 200) {
         console.error(
           "Erro ao carregar categorias dos produtos",
@@ -235,7 +215,6 @@ function loadCategories() {
         reject("Erro ao carregar categorias");
         return;
       }
-
       const dataCategories = await response.json();
       var categorySelect = document.getElementById("txt_category");
 
@@ -245,14 +224,12 @@ function loadCategories() {
         reject("Elemento 'txt_category' não encontrado.");
         return;
       }
-
       // Adiciona cada categoria como uma opção no elemento select
       dataCategories.forEach((category) => {
         categorySelect.appendChild(
           new Option(category.description, category.id)
         );
       });
-
       resolve(dataCategories);
     } catch (error) {
       console.error("Erro durante o carregamento de categorias:", error);
@@ -274,7 +251,6 @@ function loadUnits() {
           "Content-Type": "application/json",
         },
       });
-
       if (response.status !== 200) {
         console.error(
           "Erro ao carregar unidades dos produtos",
@@ -286,22 +262,18 @@ function loadUnits() {
         reject("Erro ao carregar unidades");
         return;
       }
-
       const dataUnits = await response.json();
       let unitSelect = document.getElementById("txt_unit");
-
       // Verifica se o elemento "txt_unit" foi encontrado
       if (!unitSelect) {
         console.error("Elemento 'txt_unit' não encontrado.");
         reject("Elemento 'txt_unit' não encontrado.");
         return;
       }
-
       // Adiciona cada categoria como um option no elemento select
       dataUnits.forEach((unit) => {
         unitSelect.appendChild(new Option(unit.description, unit.id));
       });
-
       resolve(dataUnits);
     } catch (error) {
       console.error("Erro durante o carregamento de unidade:", error);
@@ -319,7 +291,6 @@ async function loadCategoriesAndUnitsAndProductDetails() {
     // Carrega as categorias
     const categories = await loadCategories();
     const units = await loadUnits();
-
     // Adiciona uma verificação se 'categories' está definido e é um array
     if (
       categories &&
@@ -329,7 +300,6 @@ async function loadCategoriesAndUnitsAndProductDetails() {
     ) {
       // Obtém o ID do produto da URL
       const productId = getParameterByName("id");
-
       // Se houver um ID de produto, carrega os detalhes desse produto
       if (productId) {
         await loadProductDetails(productId, categories, units);
@@ -352,17 +322,14 @@ async function loadCategoriesAndUnitsAndProductDetails() {
 async function createProduct(event) {
   try {
     event.preventDefault(); // Impede o envio padrão do formulário
-
     // Obtém os valores dos campos dor formulario
     const id = document.getElementById("txt_id").value;
     const description = document.getElementById("txt_description").value;
     const amount = parseFloat(document.getElementById("txt_amount").value) || 0;
     const category = parseFloat(document.getElementById("txt_category").value);
     const unit = parseFloat(document.getElementById("txt_unit").value);
-
     // Determina o método com base no valor de ID
     const method = id ? "PATCH" : "POST";
-
     // Constrói o objeto de dados a ser enviado no corpo da requisição
     const data = {
       description: description,
@@ -370,12 +337,10 @@ async function createProduct(event) {
       FkIdUnit: unit,
       FkIdCategory: category,
     };
-
     // se for uma atualização(PATCH), adiciona o ID no objeto de dados
     if (id) {
       data.id = id;
     }
-
     // Faz a requisição para a API
     const url = id ? `${endpointProduct}${id}` : `${endpointProduct}`;
     const response = await fetch(url, {
@@ -385,7 +350,6 @@ async function createProduct(event) {
       },
       body: JSON.stringify(data),
     });
-
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao criar/atualizar produto:", response.statusText);
@@ -394,12 +358,9 @@ async function createProduct(event) {
       );
       return;
     }
-
     // Se chegou até aqui, a criação/atualização foi bem sucedida
     alert("Produto criado/atualizado com sucesso!");
-
     window.location.href = `http://${window.location.host}/consulta_products.html`;
-
     // Recarrega a lista de produtos
     loadProducts();
   } catch (error) {
@@ -413,11 +374,9 @@ async function deleteProduct(productId) {
     const confirmDelete = confirm(
       "Tem certeeza que deseja exlcuir este produto ?"
     );
-
     if (!confirmDelete) {
       return;
     }
-
     // Faz a requisição DELETE para a API de produtos com o ID especifico
     const response = await fetch(`${endpointProduct}${productId}`, {
       method: "DELETE",
@@ -425,17 +384,14 @@ async function deleteProduct(productId) {
         "Content-Type": "application/json",
       },
     });
-
     // Verifica sea exclusão foi bem-sucedida
     if (!response.ok) {
       console.error("Erro ao excluir produto:", response.statusText);
       alert("Erro ao excluir produto. Por favor, tente novamente mais tarde.");
       return;
     }
-
     // Recarrega a lista de produtps após a exclusão
     await loadProducts();
-
     // Se chegou até aqui, a exclusão foi bem-suicedida
     console.log("Produto excluido com sucesso!");
   } catch (error) {

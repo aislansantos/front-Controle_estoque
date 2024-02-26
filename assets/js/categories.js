@@ -251,7 +251,6 @@ async function deleteCategory(categoryId) {
     document.removeEventListener("click", deleteLinkClickHandler);
     // Adiciona um ouvinte de evento para cliques na página
     document.addEventListener("click", deleteLinkClickHandler);
-    console.log();
   } catch (error) {
     console.error("Erro ao excluir categoria de produtos:", error);
     alert(

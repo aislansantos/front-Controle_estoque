@@ -164,20 +164,20 @@ async function createUnit(event) {
     const method = id ? "PATCH" : "POST";
     // Constrói o objeto de dados a ser enviado no corpo da requisição
     const data = {
-        description: description,
+      description: description,
     };
     // Se tiver ID("PATCH"), adiciona o id no objeto
     if (id) {
-        data.id = id;
+      data.id = id;
     }
     // Faz uma requisição para API
     const url = id ? `${endpoint}${id}` : endpoint;
     const response = await fetch(url, {
-        method: method,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     });
     console.log(response);
     // Verifica se a resposta foi bem-sucedida
@@ -201,6 +201,59 @@ async function createUnit(event) {
     console.error(error);
   }
 }
+
+// Função assícrona para excluir uma unidade de produto
+async function deleteUnit(unitId) {
+  try {
+    // Confirmação do usuário antes da exclusão
+    const confirmDelete = confirm(
+      "Tem certeza que deseja exclui esta unidade de produtos"
+    );
+    if (!confirmDelete) {
+      return;
+    }
+    // Faz a requisição DELETE para a API passando o ID
+    const response = await fetch(`${endpoint}${unitId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    // Verufuca se a excluão foi bem-sucedida
+    if (!response.ok) {
+      console.error("Erro ao excluir unidade de produto:", response.statusText);
+      alert(
+        "Erro ao excluir unidade de produto. Por favor, tente novamente mais tarde."
+      );
+      return;
+    }
+    // Se chegou aqui, a exclusão foi bem-sucedida
+    console.log("Categoria excluído com sucesso!");
+    alert("Categoria excluído com sucesso!");
+    // Recarrega a lista de unidades após a exclusão
+    loadUnits();
+    // Remove um ouvinte de evento para clique
+    document.removeEventListener("click", deleteLinkClickHandler);
+    // Adiciona um ouvinte de evento para clique
+    document.addEventListener("click", deleteLinkClickHandler);
+  } catch (error) {
+    console.error("Erro ao excluir unidade de produtos:", error);
+    alert(
+      "Erro ao excluir unidade de produtos. Por favor, tente novamente mais tarde."
+    );
+  }
+}
+
+function deleteLinkClickHandler(event) {
+  if (event.target.classList.contains("excluir-link")) {
+    event.preventDefault(); // Impede o  comportamento padrão do link
+    const unitId = event.target.getAttribute("data-id");
+    deleteUnit(unitId);
+  }
+}
+
+// Adiciona um ouvinte de eventos para cliques na pagina
+document.addEventListener("click", deleteLinkClickHandler);
 
 // Adiciona um ouvinte de eventos para clique na própia página de consulta para carregar os detalhes da categoria
 document.addEventListener("click", function (event) {

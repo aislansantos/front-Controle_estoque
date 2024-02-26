@@ -17,3 +17,11 @@ a{
 #logo-barra {
     width: 50px;
 }
+fieldset legend{
+    align-items: center;
+    background-color: black;
+    color: white;
+}
+.title-pag{
+    align-items: center;
+}

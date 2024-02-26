@@ -1,12 +1,7 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
-
-body{
-    padding: 1rem;
 }
 
 h1{
@@ -50,6 +45,7 @@ button:hover{
     z-index: 5;
 }
 
+#modal_suplliers,
 #modal_category,
 #modal_unit{
     position: fixed;
@@ -77,6 +73,7 @@ button:hover{
     margin-bottom: 1rem;
 }
 
+#modal_suplliers.hide,
 #modal_category.hide,
 #modal_unit.hide,
 #fade.hide{
@@ -84,6 +81,7 @@ button:hover{
     pointer-events: none;
 }
 
+#modal_suplliers.hide,
 #modal_category.hide,
 #modal_unit.hide{
     top: 0;

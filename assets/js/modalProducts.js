@@ -25,6 +25,14 @@ const toggleModalUnit = () => {
   el.addEventListener("click", () => toggleModalUnit());
 });
 
+// Funções que limpam o botão quando fechamos o modal
+closeModalButtonCategory.addEventListener("click", function () {
+  document.getElementById("txt_description_category").value = "";
+});
+closeModalButtonUnit.addEventListener("click", function () {
+  document.getElementById("txt_description_unit").value = "";
+});
+
 // Função assincrona para criar/atualizar uma categoria de produto
 async function createCategory(event) {
   try {
