@@ -25,14 +25,14 @@
     <title>Suppliers</title>
 </head>
 
-<body onload="loadSuppliers()">
+<body onload="supplier.loadSuppliers()">
     <div class="container">
         <div id="menu-container"></div>
         <br>
         <div class="form-group">
             <label for="">Pesquisar</label>
-            <input type="text" name="txt_pesquisa" id="txt_pesquisa" placeholder="Digite a Categiria">
-            <button type="button" class="btn btn-sm btn-outline-dark">Pesquisar</button>
+            <input type="text" name="txt_search_supplier" id="txt_search_supplier" placeholder="Digite a Categiria">
+            <button type="button" class="btn btn-sm btn-outline-dark" id="btn_search">Pesquisar</button>
         </div>
         <table id="tb_suppliers" class="table">
             <thead>
@@ -65,6 +65,9 @@
                 document.getElementById('menu-container').innerHTML = data;
             })
             .catch(error => console.error('Erro ao carregar o menu:', error));
+
+        const supplier = new Supplier();
+        supplier.init();
     </script>
 
 </body>

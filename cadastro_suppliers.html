@@ -28,7 +28,7 @@
 <body>
     <div class="container">
         <div id="menu-container"></div>
-        <form action="http://localhost:3000/suppliers" method="post" onsubmit="createSupplier(event)">
+        <form action="http://localhost:3000/suppliers" method="post" onsubmit="supplier.createSupplier(event)">
             <fieldset>
                 <div class="mb-3">
                     <label for="txt_id" class="form-label">ID</label>
@@ -67,6 +67,9 @@
                 document.getElementById('menu-container').innerHTML = data;
             })
             .catch(error => console.error('Erro ao carregar o menu:', error));
+
+        const supplier = new Supplier();
+        supplier.init(); 
     </script>
 
 </body>

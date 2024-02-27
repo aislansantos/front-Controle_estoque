@@ -30,7 +30,7 @@
     <title>Consumindo API - Controle de Estoque</title>
 </head>
 
-<body onload="loadProducts()">
+<body onload="product.loadProducts()">
     <div class="container">
         <div id="menu-container"></div>
         <div class="container">
@@ -68,6 +68,8 @@
                     document.getElementById('menu-container').innerHTML = data;
                 })
                 .catch(error => console.error('Erro ao carregar o menu:', error));
+
+            const product = new Product();
         </script>
 
 </body>
