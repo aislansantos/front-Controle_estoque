@@ -27,35 +27,46 @@
     <!-- CSS projeto -->
     <link rel="stylesheet" href="./assets/css/style.css">
 
-    <title>Consumindo API - Controle de Estoque</title>
+    <title>Products</title>
 </head>
 
 <body onload="product.loadProducts()">
     <div class="container">
         <div id="menu-container"></div>
-        <div class="container">
-            <br>
-            <div class="form-group">
-                <label for="">Pesquisar</label>
-                <input type="text" name="txt_pesquisa" id="txt_pesquisa" placeholder="Digite a Categiria">
-                <button type="button" class="btn btn-sm btn-outline-dark">Pesquisar</button>
+        <br>
+        <h1>Produtos</h1>
+        <div class="adjust-form">
+            <fieldset>
+                <legend>Relaçao de Produtos Cadastrados</legend>
+                <div class="row top-search">
+                    <div class="col-auto form-group">
+                        <label for="">Pesquisar</label>
+                        <input type="text" name="txt_pesquisa_products" id="txt_pesquisa_products" class="txt_search"
+                            placeholder="Digite o Produto">
+                    </div>
+                    <div class="col-auto">
+                        <a href="cadastro_products.html" class="btn btn-outline-dark">Cadastrar Novo Produto</a>
+                    </div>
+                </div>
+                <br>
+                <div class="table-container">
+                <table id="tb_products" class="table table-striped">
+                    <thead class="table-dark">
+                        <th>Id</th>
+                        <th class="text-center">Descrição</th>
+                        <th>Quant.</th>
+                        <th>Uni.</th>
+                        <th>Categoria</th>
+                        <th>Opção</th>
+                    </thead>
+                    <tbody id="tbody-products">
+                    </tbody>
+                </table>
+                <div id="pagination-container" class="pagination-container"></div>
             </div>
-            <table id="tb_products" class="table">
-                <thead>
-                    <th>Cod.</th>
-                    <th>Descrição</th>
-                    <th>Quant.</th>
-                    <th>Uni.</th>
-                    <th>Categoria</th>
-                    <th>Opção</th>
-                </thead>
-                <tbody id="tbody_products">
-                </tbody>
-            </table>
-            <div class="col-lg-12" style="text-align: right;">
-                <a href="cadastro_products.html" class="btn btn-outline-dark">Cadastrar Novo Produto</a>
-            </div>
+            </fieldset>
         </div>
+
 
         <!-- Seu script JavaScript -->
         <script type="text/javascript" src="./assets/js/products.js"></script>
@@ -70,6 +81,7 @@
                 .catch(error => console.error('Erro ao carregar o menu:', error));
 
             const product = new Product();
+            product.init();
         </script>
 
 </body>

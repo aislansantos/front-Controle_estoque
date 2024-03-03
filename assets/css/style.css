@@ -2,8 +2,19 @@
     font-family: 'JetBrains Mono', sans-serif;
     font-size: small;
 }
-#txt_id { 
-    width: 75px;
+body{
+    background-color: #E9ECEF;
+}
+form{
+    background-color: #fff;
+    border: 1px solid;
+}
+form input,
+form label{
+    margin-left: 15px;
+}
+form button{
+    margin: 15px;
 }
 .primary-color {
     color: black;
@@ -18,10 +29,58 @@ a{
     width: 50px;
 }
 fieldset legend{
-    align-items: center;
-    background-color: black;
+    background-color:#619edb;
     color: white;
+    font-size: .9rem;
+    padding-left: 10px;
 }
 .title-pag{
     align-items: center;
+}
+.txt_search{
+    border-radius: 5px;
+}
+.btn{
+    border-radius: 5px;
+}
+h1{
+    text-align: center;
+}
+.txt_id { 
+    width: 75px;
+}
+.adjust-form{
+    height:600px;
+    background-color: #fff;
+    border: 1px solid;
+}
+input,
+.adjust-form label{
+    margin-left: 15px;
+}
+.adjust-form button{
+    margin: 15px;
+}
+.adjust-form table {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 15px;
+}
+.top-search{
+    margin-top: 35px;
+}
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* Ajuste conforme necessário */
+}
+
+.btn-pagination {
+    margin: 0 5px; /* Espaçamento entre os botões de paginação */
+}
+.total-pages {
+    display: inline-block;
+    margin: 0 10px;
+    font-size: 14px;
 }

@@ -29,23 +29,36 @@
     <div class="container">
         <div id="menu-container"></div>
         <br>
-        <div class="form-group">
-            <label for="">Pesquisar</label>
-            <input type="text" name="txt_search_supplier" id="txt_search_supplier" placeholder="Digite a Categiria">
-            <button type="button" class="btn btn-sm btn-outline-dark" id="btn_search">Pesquisar</button>
-        </div>
-        <table id="tb_suppliers" class="table">
-            <thead>
-                <th scope="col">Id</th>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <th>Opção</th>
-            </thead>
-            <tbody id="tbody_suppliers">
-            </tbody>
-        </table>
-        <div class="col-lg-12" style="text-align: right;">
-            <a href="cadastro_suppliers.html" class="btn btn-outline-dark">Cadastrar Novo Fornecedor</a>
+        <h1>Fornecedores</h1>
+        <div class="adjust-form">
+            <fieldset>
+                <legend>Relaçao de Fornecedores Cadastrados</legend>
+                <div class="row top-search">
+                    <div class="col-auto form-group">
+                        <label for="">Pesquisar</label>
+                        <input type="text" name="txt_search_supplier" id="txt_search_supplier" class="txt_search"
+                            placeholder="Digite a Fornecedor">
+                    </div>
+                    <div class="col-auto">
+                        <a href="cadastro_suppliers.html" class="btn btn-outline-success">Cadastrar Novo
+                            Fornecedor</a>
+                    </div>
+                </div>
+                <br>
+                <div class="table-container">
+                    <table id="tb_suppliers" class="table table-striped">
+                        <thead class="table-dark">
+                            <th scope="col" class="text-center">Id</th>
+                            <th class="text-center">Nome</th>
+                            <th class="text-center">E-mail</th>
+                            <th class="text-center">Opção</th>
+                        </thead>
+                        <tbody id="tbody_suppliers">
+                        </tbody>
+                    </table>
+                    <div id="pagination-container" class="pagination-container"></div>
+                </div>
+            </fieldset>
         </div>
     </div>
 
@@ -67,7 +80,6 @@
             .catch(error => console.error('Erro ao carregar o menu:', error));
 
         const supplier = new Supplier();
-        supplier.init();
     </script>
 
 </body>

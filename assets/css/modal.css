@@ -28,7 +28,8 @@ button:hover{
 }
 
 #fade,
-#modal_category,
+#modal-category-search,
+#modal-category-cad,
 #modal_unit{
     transition: .5s;
     opacity: 1;
@@ -46,7 +47,8 @@ button:hover{
 }
 
 #modal_suplliers,
-#modal_category,
+#modal-category-search,
+#modal-category-cad,
 #modal_unit{
     position: fixed;
     left: 50%;
@@ -56,8 +58,14 @@ button:hover{
     z-index: 10;
     width: 500px;
     max-width: 90%;
+    max-height: 90%;
     padding: 1.2rem;
     border-radius: .5rem;
+}
+
+#modal-category-search{
+    height: 800px;
+    max-height: 90%;
 }
 
 .modal-header{
@@ -74,7 +82,8 @@ button:hover{
 }
 
 #modal_suplliers.hide,
-#modal_category.hide,
+#modal-category-search.hide,
+#modal-category-cad.hide,
 #modal_unit.hide,
 #fade.hide{
     opacity: 0;
@@ -82,7 +91,8 @@ button:hover{
 }
 
 #modal_suplliers.hide,
-#modal_category.hide,
+#modal-category-search.hide,
+#modal-category-cad.hide,
 #modal_unit.hide{
     top: 0;
 }
